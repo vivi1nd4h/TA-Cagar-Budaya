@@ -83,7 +83,7 @@ def inject_css() -> None:
     st.markdown(
         """
         <style>
-        @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700;800&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&display=swap');
         :root {
             --ink: #211d17;
             --muted: #756b5c;
@@ -94,6 +94,7 @@ def inject_css() -> None:
             --blue: #2c66c9;
             --purple: #7e4fc0;
             --brown: #a05d17;
+            --overview-zoom: .92;
         }
         [data-testid="stHeader"],
         [data-testid="stToolbar"],
@@ -111,8 +112,8 @@ def inject_css() -> None:
             font-family: "IBM Plex Sans", sans-serif;
         }
         .block-container {
-            max-width: 1490px;
-            padding: 3.1rem 1.6rem 4.5rem;
+            max-width: 1500px;
+            padding: .45rem 1.25rem 1rem;
         }
         p, li, div, label {font-family: "IBM Plex Sans", sans-serif;}
         h1, h2, h3 {color: var(--ink); letter-spacing: -.02em;}
@@ -124,14 +125,17 @@ def inject_css() -> None:
             font-family: "IBM Plex Sans", sans-serif !important;
             font-weight: 700 !important;
         }
-        h2 {font-size: 1.9rem !important; margin: 2rem 0 1rem !important;}
-        h3 {font-size: 1.15rem !important;}
+        h2 {font-size: 1.35rem !important; margin: 1rem 0 .55rem !important;}
+        h3 {font-size: .98rem !important;}
         .hero {
-            padding: 0 0 2.25rem;
-            margin: 0 0 .35rem;
+            position: relative;
+            padding: .15rem 0 .65rem;
+            margin: 0 0 .45rem;
             border: 0;
             background: transparent;
             box-shadow: none;
+            text-align: center;
+            zoom: var(--overview-zoom);
         }
         .hero-kicker, .eyebrow {
             font-family: "IBM Plex Mono", monospace;
@@ -141,40 +145,110 @@ def inject_css() -> None:
             color: var(--brown);
         }
         .hero-kicker {display: none;}
+        .hero::after {
+            content: "";
+            position: absolute;
+            left: 50%;
+            bottom: 0;
+            width: 128px;
+            height: 2px;
+            border-radius: 999px;
+            background: #a05d17;
+            transform: translateX(-50%);
+        }
         .hero h1 {
-            font-size: clamp(2.35rem, 3vw, 3.35rem);
-            line-height: 1.08;
+            position: relative;
+            z-index: 1;
+            font-size: clamp(2.15rem, 2.7vw, 3rem);
+            line-height: 1.04;
             text-transform: none;
             letter-spacing: -.018em;
-            margin: .7rem 0 .85rem;
-            max-width: 1240px;
+            margin: 0 auto;
+            max-width: 1120px;
         }
+        .hero h1 .title-line {
+            display: inline;
+        }
+        .hero h1 .title-place {
+            display: inline;
+            margin-top: 0;
+        }
+        .hero-title-frame {
+            position: relative;
+            min-height: 68px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0 190px;
+        }
+        .hero-motif {
+            position: absolute;
+            top: 50%;
+            width: 104px;
+            height: 24px;
+            transform: translateY(-50%);
+            opacity: 1;
+            pointer-events: none;
+            color: #b3482d;
+        }
+        .hero-motif svg {
+            width: 100%;
+            height: 100%;
+            display: block;
+            overflow: visible;
+        }
+        .hero-motif-left {left: 7rem;}
+        .hero-motif-right {right: 7rem; transform: translateY(-50%) scaleX(-1);}
         .hero p {
-            font-size: 1.04rem;
-            line-height: 1.55;
+            font-size: .86rem;
+            line-height: 1.32;
             color: #4f493f;
-            max-width: 1045px;
+            max-width: 1220px;
             margin: 0;
         }
         .metric-card {
-            padding: 1.15rem 1.25rem;
-            min-height: 108px;
-            border: 1px solid var(--line);
+            padding: .8rem .9rem;
+            height: 88px;
+            border: 1px solid color-mix(in srgb, var(--accent, #a05d17) 22%, var(--line));
+            border-top: 3px solid var(--accent, #a05d17);
             border-radius: 6px;
-            background: var(--card);
+            background: var(--soft, rgba(251, 250, 246, .58));
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
         }
         .metric-card .value {
-            font-family: "Spectral", Georgia, serif;
-            font-size: 2rem;
+            font-family: "IBM Plex Sans", sans-serif;
+            font-size: 1.78rem;
             line-height: 1;
-            font-weight: 600;
-            color: #050505;
+            font-weight: 800;
+            color: var(--accent, #211d17);
+            letter-spacing: -.015em;
         }
         .metric-card .label {
-            font-size: .78rem;
-            color: #665e52;
-            margin-top: .8rem;
+            font-size: .75rem;
+            color: #433c33;
+            font-weight: 500;
+            margin-top: .36rem;
         }
+        .overview-layout {
+            display: grid;
+            gap: .72rem;
+            zoom: var(--overview-zoom);
+        }
+        .overview-dimensions,
+        .overview-metrics,
+        .overview-main,
+        .overview-left-stack {
+            display: grid;
+            gap: .72rem;
+        }
+        .overview-dimensions {grid-template-columns: repeat(3, minmax(0, 1fr));}
+        .overview-metrics {grid-template-columns: repeat(5, minmax(0, 1fr));}
+        .overview-main {grid-template-columns: minmax(0, 1.55fr) minmax(360px, 1fr); align-items: stretch;}
+        .overview-left-stack {display: block;}
         .narrative {
             border-left: 4px solid var(--blue);
             padding: .9rem 1rem;
@@ -205,128 +279,269 @@ def inject_css() -> None:
             margin: 0;
         }
         .dimension-card {
-            background: #fbfaf6;
-            border: 1px solid var(--line);
-            border-left: 3px solid var(--accent);
-            border-radius: 5px;
-            padding: 1.25rem 1.45rem;
-            height: 176px;
+            background: var(--soft);
+            border: 1px solid color-mix(in srgb, var(--accent) 16%, var(--line));
+            border-radius: 8px;
+            padding: .95rem 1.05rem;
+            height: 94px;
             margin-bottom: 0;
             display: flex;
-            flex-direction: column;
-            justify-content: space-between;
+            align-items: center;
+            gap: .9rem;
+            overflow: hidden;
         }
+        .dimension-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 11px;
+            flex: 0 0 50px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--accent);
+            color: #fffaf1;
+        }
+        .dimension-icon svg {
+            width: 27px;
+            height: 27px;
+            stroke-width: 2.1;
+        }
+        .dimension-copy {min-width: 0;}
         .dimension-card .method {
-            float: right;
+            display: inline;
+            margin-left: .35rem;
             font-family: "IBM Plex Mono", monospace;
-            font-size: .68rem;
+            font-size: .58rem;
             letter-spacing: .15em;
             text-transform: uppercase;
-            color: var(--accent);
+            color: color-mix(in srgb, var(--accent) 78%, #211d17);
+            font-weight: 600;
         }
         .dimension-card h3 {
-            font-family: "Spectral", Georgia, serif !important;
-            font-size: 1.45rem !important;
-            margin: .55rem 0 1.25rem !important;
+            font-family: "IBM Plex Sans", sans-serif !important;
+            font-size: 1.2rem !important;
+            line-height: 1.1 !important;
+            margin: 0 0 .38rem !important;
+            color: color-mix(in srgb, var(--accent) 38%, #211d17);
+            font-weight: 800 !important;
         }
         .dimension-card p {
-            color: #5b544a;
-            font-size: .98rem;
-            line-height: 1.55;
+            color: #3f382f;
+            font-size: .77rem;
+            line-height: 1.25;
             margin: 0;
-            min-height: 3.05rem;
+            min-height: 0;
+            font-weight: 500;
+        }
+        .discourse-card {
+            background: rgba(251, 250, 246, .78);
+            border: 1px solid rgba(222, 213, 198, .78);
+            border-radius: 7px;
+            padding: 1.18rem 1.35rem;
+            min-height: 136px;
+        }
+        .dark-card .discourse-card {
+            background: transparent;
+            border: 0;
+            border-radius: 0;
+            padding: 0 0 1.25rem;
+            min-height: 0;
+            border-bottom: 1px solid rgba(240, 230, 213, .18);
+            margin-bottom: 1.25rem;
+        }
+        .discourse-head {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            margin-bottom: .8rem;
+        }
+        .discourse-card h3 {
+            font-family: "IBM Plex Sans", sans-serif !important;
+            font-size: 1.1rem !important;
+            margin: 0 !important;
+            line-height: 1.1 !important;
+            font-weight: 800 !important;
+            color: #11100d;
+        }
+        .dark-card .discourse-card h3 {
+            color: #fff8ed;
+        }
+        .discourse-total {
+            font-family: "IBM Plex Mono", monospace;
+            color: #5d5346;
+            font-size: .68rem;
+            white-space: nowrap;
+            font-weight: 600;
+        }
+        .dark-card .discourse-total {
+            color: #d8c8ad;
+        }
+        .discourse-bar {
+            height: 34px;
+            border-radius: 7px;
+            overflow: hidden;
+            display: flex;
+            background: #e8dfcf;
+        }
+        .dark-card .discourse-bar {
+            background: rgba(255, 250, 241, .14);
+            box-shadow: inset 0 0 0 1px rgba(255, 250, 241, .08);
+        }
+        .discourse-segment {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            color: #fffaf1;
+            font-size: .68rem;
+            font-weight: 800;
+            min-width: 34px;
+        }
+        .discourse-legend {
+            display: flex;
+            flex-wrap: wrap;
+            gap: .45rem .85rem;
+            margin-top: .75rem;
+            color: #3f382f;
+            font-size: .72rem;
+            font-weight: 500;
+        }
+        .dark-card .discourse-legend {
+            color: #f0e6d5;
+        }
+        .discourse-legend-item {
+            display: inline-flex;
+            align-items: center;
+            gap: .35rem;
+            white-space: nowrap;
+        }
+        .discourse-swatch {
+            width: 11px;
+            height: 11px;
+            border-radius: 3px;
+            display: inline-block;
         }
         .dark-card {
             background: #26221b;
             color: #f8f2e7;
-            border-radius: 5px;
-            padding: 2rem 2.2rem;
-            min-height: 260px;
+            border-radius: 8px;
+            padding: 1.55rem 1.7rem 1.65rem;
+            min-height: 329px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
         }
-        .dark-card .eyebrow {color: #d58a2e;}
+        .dark-card .eyebrow {
+            color: #f0a33b;
+            font-weight: 600;
+        }
         .dark-card h2 {
-            font-family: "Spectral", Georgia, serif !important;
+            font-family: "IBM Plex Sans", sans-serif !important;
             color: #fff8ed;
-            font-size: 1.75rem !important;
-            line-height: 1.35;
-            margin: 1rem 0 1.6rem !important;
+            font-size: 1.42rem !important;
+            line-height: 1.18;
+            margin: .85rem 0 .95rem !important;
+            max-width: 760px;
+            font-weight: 800 !important;
+            letter-spacing: -.01em;
         }
         .dark-card p {
-            color: #eadfca;
-            font-size: .96rem;
-            line-height: 1.65;
+            color: #f0e6d5;
+            font-size: .9rem;
+            line-height: 1.5;
             margin: 0;
+            max-width: 760px;
+            font-weight: 600;
+        }
+        .findings-card {
+            background: rgba(251, 250, 246, .66);
+            border: 1px solid rgba(222, 213, 198, .78);
+            border-radius: 8px;
+            padding: 1.45rem 1.65rem 1.55rem;
+            min-height: 329px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-evenly;
         }
         .finding-list-title {
             font-family: "IBM Plex Mono", monospace;
-            font-size: .76rem;
+            font-size: .72rem;
             letter-spacing: .22em;
-            color: var(--brown);
+            color: #9a5412;
             text-transform: uppercase;
-            margin: .2rem 0 1.1rem;
+            margin: 0;
+            font-weight: 600;
         }
         .finding-item {
             display: grid;
-            grid-template-columns: 32px 1fr;
+            grid-template-columns: 36px minmax(0, 1fr);
             gap: .9rem;
             align-items: start;
-            margin: 0 0 1rem;
-            color: #332e27;
-            font-size: .97rem;
-            line-height: 1.48;
+            margin: 0;
+            color: #191611;
+            font-size: 1rem;
+            line-height: 1.46;
+            font-weight: 600;
         }
         .finding-number {
-            width: 24px;
-            height: 24px;
+            width: 32px;
+            height: 32px;
             border-radius: 999px;
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            background: #f5ead5;
-            color: #a05d17;
+            background: var(--accent);
+            color: #fffaf1;
             font-family: "IBM Plex Mono", monospace;
-            font-size: .75rem;
+            font-weight: 600;
+            font-size: .84rem;
+            margin-top: .05rem;
         }
         .topic-kicker {
             font-family: "IBM Plex Mono", monospace;
-            font-size: .72rem;
+            font-size: .82rem;
             letter-spacing: .22em;
             text-transform: uppercase;
             color: var(--brown);
-            margin: 0 0 .55rem;
+            margin: 0 0 .5rem;
+            font-weight: 600;
         }
         .topic-copy {
-            color: #5e5548;
+            color: #4f463b;
             max-width: 940px;
-            font-size: .95rem;
-            line-height: 1.55;
-            margin: 0 0 1.9rem;
+            font-size: 1rem;
+            line-height: 1.42;
+            margin: 0 0 1rem;
+            font-weight: 500;
         }
         .topic-bars-grid {
             display: grid;
             grid-template-columns: repeat(2, minmax(0, 1fr));
-            gap: 1.55rem 3rem;
-            margin-bottom: 1.35rem;
+            gap: .75rem 1.3rem;
+            margin-bottom: .85rem;
         }
-        .topic-row {margin-bottom: 1rem;}
+        .topic-row {margin-bottom: .62rem;}
         .topic-row-head {
             display: grid;
             grid-template-columns: minmax(0, 1fr) auto;
-            gap: 1rem;
+            gap: .65rem;
             align-items: end;
-            margin-bottom: .35rem;
+            margin-bottom: .25rem;
         }
         .topic-row-title {
             color: #090806;
-            font-size: .86rem;
-            font-weight: 700;
-            line-height: 1.25;
+            font-size: .88rem;
+            font-weight: 800;
+            line-height: 1.18;
         }
         .topic-row-meta {
-            color: #7b705f;
+            color: #6a5f51;
             font-family: "IBM Plex Mono", monospace;
-            font-size: .76rem;
+            font-size: .78rem;
             white-space: nowrap;
+            font-weight: 600;
         }
         .topic-track {
             height: 8px;
@@ -342,11 +557,12 @@ def inject_css() -> None:
         .topic-legend {
             display: flex;
             flex-wrap: wrap;
-            gap: .85rem 1.05rem;
+            gap: .5rem .85rem;
             align-items: center;
-            margin: 1.3rem 0 2.6rem;
-            color: #5e5548;
-            font-size: .82rem;
+            margin: .75rem 0 .5rem;
+            color: #4f463b;
+            font-size: .86rem;
+            font-weight: 500;
         }
         .topic-legend-item {
             display: inline-flex;
@@ -358,6 +574,132 @@ def inject_css() -> None:
             height: 13px;
             border-radius: 3px;
             display: inline-block;
+        }
+        .topic-panel {
+            background: rgba(251, 250, 246, .78);
+            border: 1px solid rgba(222, 213, 198, .9);
+            border-radius: 8px;
+            padding: 1rem 1.05rem .95rem;
+            min-height: 590px;
+        }
+        .topic-panel-head {
+            display: flex;
+            align-items: baseline;
+            justify-content: space-between;
+            gap: 1rem;
+            margin-bottom: .5rem;
+        }
+        .topic-panel h3 {
+            font-family: "IBM Plex Sans", sans-serif !important;
+            font-size: 1.12rem !important;
+            line-height: 1.1 !important;
+            margin: 0 !important;
+            font-weight: 800 !important;
+            letter-spacing: 0;
+        }
+        .topic-panel .method {
+            font-family: "IBM Plex Mono", monospace;
+            font-size: .64rem;
+            letter-spacing: .2em;
+            color: var(--brown);
+            text-transform: uppercase;
+            font-weight: 600;
+        }
+        .topic-panel .topic-copy {
+            font-size: .78rem;
+            line-height: 1.32;
+            margin: 0 0 .72rem;
+        }
+        .topic-panel .topic-bars-grid {
+            display: block;
+            margin-bottom: .7rem;
+        }
+        .topic-panel .topic-row {
+            margin-bottom: .47rem;
+        }
+        .topic-panel .topic-row-head {
+            margin-bottom: .17rem;
+        }
+        .topic-panel .topic-row-title {
+            font-size: .72rem;
+            line-height: 1.14;
+        }
+        .topic-panel .topic-row-meta {
+            font-size: .66rem;
+        }
+        .topic-panel .topic-track {
+            height: 6px;
+        }
+        .topic-panel .topic-legend {
+            border-top: 1px solid #e2d8c7;
+            padding-top: .7rem;
+            margin: .75rem 0 0;
+            font-size: .72rem;
+            gap: .45rem .7rem;
+        }
+        .topic-panel .topic-legend-swatch {
+            width: 11px;
+            height: 11px;
+        }
+        .quadrant-head {
+            margin: .15rem 0 .7rem;
+        }
+        .quadrant-head h3 {
+            font-family: "IBM Plex Sans", sans-serif !important;
+            font-size: 1.25rem !important;
+            line-height: 1.15 !important;
+            margin: 0 0 .38rem !important;
+            font-weight: 800 !important;
+            letter-spacing: 0;
+        }
+        .quadrant-head p {
+            color: #4f463b;
+            font-size: .88rem;
+            line-height: 1.4;
+            margin: 0;
+            font-weight: 500;
+        }
+        .quadrant-mini-legend {
+            display: flex;
+            align-items: center;
+            gap: .85rem;
+            margin-top: .62rem;
+            color: #6d6254;
+            font-family: "IBM Plex Mono", monospace;
+            font-size: .78rem;
+            font-weight: 600;
+        }
+        .legend-dot {
+            width: 14px;
+            height: 14px;
+            border-radius: 999px;
+            display: inline-block;
+            background: #b8ad9b;
+            vertical-align: -2px;
+            margin-right: .35rem;
+        }
+        .community-inline-legend {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: .62rem 1.15rem;
+            align-items: start;
+            margin: .25rem 0 .35rem;
+            color: #4b443a;
+            font-size: .8rem;
+            font-weight: 600;
+            line-height: 1.25;
+        }
+        .community-inline-item {
+            display: inline-flex;
+            align-items: center;
+            gap: .5rem;
+            min-width: 0;
+        }
+        .community-inline-item .topic-legend-swatch {
+            flex: 0 0 13px;
+            width: 13px;
+            height: 13px;
+            border-radius: 999px;
         }
         .section-title-serif {
             font-family: "Spectral", Georgia, serif !important;
@@ -401,18 +743,18 @@ def inject_css() -> None:
         @media (max-width: 900px) {
             .topic-bars-grid {grid-template-columns: 1fr;}
         }
-        div[data-testid="stVerticalBlock"] {gap: 1rem;}
-        div[data-testid="stHorizontalBlock"] {gap: 1rem;}
+        div[data-testid="stVerticalBlock"] {gap: .55rem;}
+        div[data-testid="stHorizontalBlock"] {gap: .55rem;}
         .stTabs [data-baseweb="tab-list"] {
             gap: 0;
             border-bottom: 1px solid #d8cfc0;
-            margin-bottom: 2.25rem;
+            margin-bottom: .8rem;
         }
         .stTabs [data-baseweb="tab"] {
-            height: 42px;
-            padding: 0 1.25rem;
+            height: 34px;
+            padding: 0 .95rem;
             color: #8a8070;
-            font-size: .88rem;
+            font-size: .76rem;
             font-weight: 600;
         }
         .stTabs [aria-selected="true"] {color: #11100e !important;}
@@ -421,50 +763,59 @@ def inject_css() -> None:
             height: 2px !important;
         }
         .priority-card {
-            padding: 1.35rem 1.5rem 1.2rem;
+            padding: .78rem .9rem .72rem;
             border: 1px solid var(--line);
-            border-left: 4px solid var(--accent);
+            border-left: 5px solid var(--accent);
             border-radius: 7px;
             background: #fbfaf6;
-            margin-bottom: 1rem;
+            margin-bottom: .46rem;
+            min-height: 102px;
         }
         .priority-card h4 {
-            margin: 0 0 .85rem;
-            font-family: "Spectral", Georgia, serif;
-            font-size: 1.18rem;
-            line-height: 1.25;
+            margin: 0 0 .45rem;
+            font-family: "IBM Plex Sans", sans-serif;
+            font-size: .98rem;
+            line-height: 1.18;
             color: #11100e;
+            font-weight: 800;
         }
         .priority-card p {
-            margin: .9rem 0 0;
-            color: #5e5548;
-            font-size: .88rem;
-            line-height: 1.55;
+            margin: .45rem 0 0;
+            color: #4f463b;
+            font-size: .78rem;
+            line-height: 1.34;
+            font-weight: 500;
         }
         .chip {
             display: inline-block;
-            padding: .25rem .7rem;
-            margin: .16rem .22rem .16rem 0;
+            padding: .18rem .5rem;
+            margin: .08rem .12rem .08rem 0;
             border-radius: 999px;
             background: #eee7da;
-            color: #51493e;
-            font-size: .76rem;
+            color: #40382f;
+            font-size: .66rem;
             line-height: 1.25;
+            font-weight: 500;
         }
         .priority-kicker {
             font-family: "IBM Plex Mono", monospace;
-            font-size: .72rem;
+            font-size: .68rem;
             letter-spacing: .24em;
             text-transform: uppercase;
             color: var(--brown);
-            margin: .2rem 0 .95rem;
+            margin: .05rem 0 .5rem;
+            font-weight: 600;
         }
         .strategy-card {
             background: #211d17;
             border-radius: 7px;
-            padding: 1.55rem 1.65rem;
+            padding: .95rem 1.05rem .9rem;
             color: #f8f2e8;
-            margin-bottom: 1rem;
+            margin-bottom: .48rem;
+            min-height: 172px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
         }
         .strategy-card .priority-kicker {
             color: #d58a2e;
@@ -472,49 +823,51 @@ def inject_css() -> None:
         }
         .strategy-item {
             display: grid;
-            grid-template-columns: 1.45rem 1fr;
-            gap: .65rem;
-            margin: 1rem 0;
+            grid-template-columns: 1.25rem 1fr;
+            gap: .55rem;
+            margin: .55rem 0;
         }
         .strategy-number {
-            font-family: "Spectral", Georgia, serif;
+            font-family: "IBM Plex Sans", sans-serif;
             color: #d58a2e;
-            font-size: 1.55rem;
-            font-weight: 700;
+            font-size: 1.08rem;
+            font-weight: 800;
             line-height: 1;
         }
         .strategy-title {
             color: #fbfaf6;
             font-weight: 800;
-            font-size: .95rem;
-            margin-bottom: .2rem;
+            font-size: .82rem;
+            margin-bottom: .12rem;
         }
         .strategy-copy {
-            color: #cfc5b7;
-            font-size: .84rem;
-            line-height: 1.45;
+            color: #e6dac8;
+            font-size: .7rem;
+            line-height: 1.3;
+            font-weight: 500;
         }
         .role-def-card {
             background: #fbfaf6;
             border: 1px solid var(--line);
             border-radius: 7px;
-            padding: 1.45rem 1.55rem;
+            padding: .88rem 1rem;
         }
         .role-def-item {
-            margin: .85rem 0;
+            margin: .46rem 0 .54rem;
         }
         .role-def-item h4 {
-            margin: 0 0 .18rem;
-            color: #2b261f;
+            margin: 0 0 .12rem;
+            color: #211d17;
             font-family: "IBM Plex Sans", sans-serif;
-            font-size: .9rem;
+            font-size: .76rem;
             font-weight: 800;
         }
         .role-def-item p {
             margin: 0;
-            color: #7a7062;
-            font-size: .78rem;
-            line-height: 1.35;
+            color: #5f5548;
+            font-size: .66rem;
+            line-height: 1.28;
+            font-weight: 500;
         }
         div[data-testid="stPlotlyChart"] {
             border: 1px solid var(--line); border-radius: 6px;
@@ -522,24 +875,25 @@ def inject_css() -> None:
         }
         .network-kicker {
             font-family: "IBM Plex Mono", monospace;
-            font-size: .72rem;
+            font-size: .94rem;
             letter-spacing: .22em;
             text-transform: uppercase;
             color: var(--brown);
+            font-weight: 600;
             margin: 0 0 .6rem;
         }
         .network-row {
             display: grid;
             grid-template-columns: minmax(0, 1fr) 385px;
-            gap: 1.5rem;
+            gap: .9rem;
             align-items: start;
         }
         .network-controls {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            gap: 1.25rem;
-            margin: 0 0 1rem;
+            gap: .7rem;
+            margin: 0 0 .55rem;
         }
         .dimension-pills {
             display: inline-flex;
@@ -549,11 +903,11 @@ def inject_css() -> None:
         }
         .dimension-pill {
             display: inline-block;
-            padding: .55rem 1rem;
+            padding: .7rem 1.18rem;
             border-radius: 5px;
-            font-size: .84rem;
+            font-size: 1.12rem;
             color: #665e52;
-            font-weight: 600;
+            font-weight: 800;
         }
         .dimension-pill.active {
             background: #26221b;
@@ -575,22 +929,23 @@ def inject_css() -> None:
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            min-width: 42px;
-            height: 36px;
-            padding: 0 .75rem;
+            min-width: 40px;
+            height: 34px;
+            padding: 0 .65rem;
             border-radius: 6px;
             color: #fff;
-            font-weight: 700;
+            font-weight: 800;
             font-size: .82rem;
         }
         div[data-testid="stPills"] {
             margin-top: -.15rem;
         }
         div[data-testid="stPills"] button {
-            min-width: 42px !important;
-            height: 36px !important;
+            min-width: 46px !important;
+            height: 38px !important;
             border-radius: 6px !important;
             font-weight: 800 !important;
+            font-size: 1.05rem !important;
         }
         .role-select-label {
             font-family: "IBM Plex Mono", monospace;
@@ -600,79 +955,98 @@ def inject_css() -> None:
             color: var(--brown);
             margin-bottom: .55rem;
         }
+        .network-panel-lift {
+            height: 0;
+            margin-bottom: -.45rem;
+        }
         .network-card {
             background: #fbfaf6;
             border: 1px solid var(--line);
             border-radius: 6px;
-            padding: .75rem .75rem .55rem;
+            padding: .5rem .5rem .35rem;
         }
         .network-card svg {
             display: block;
             width: 100%;
             height: auto;
-            min-height: 520px;
+            min-height: 440px;
         }
         .network-note {
             border-top: 1px solid #e4daca;
             margin-top: .25rem;
-            padding: .7rem .4rem .2rem;
+            padding: .48rem .3rem .15rem;
             color: #9a8d7b;
             font-family: "IBM Plex Mono", monospace;
-            font-size: .72rem;
+            font-size: .86rem;
+            font-weight: 500;
         }
         .network-side-card {
             background: #fbfaf6;
             border: 1px solid var(--line);
             border-radius: 6px;
-            padding: 1.45rem 1.55rem;
+            padding: .9rem 1rem;
         }
         .legend-title {
             font-family: "IBM Plex Mono", monospace;
-            font-size: .72rem;
+            font-size: .9rem;
             letter-spacing: .22em;
             color: var(--brown);
             text-transform: uppercase;
-            margin-bottom: 1.2rem;
+            font-weight: 600;
+            margin-bottom: .65rem;
         }
         .legend-item {
             display: grid;
             grid-template-columns: 18px 1fr;
-            gap: .75rem;
+            gap: .5rem;
             align-items: start;
-            margin-bottom: 1rem;
-            color: #332e27;
-            font-size: .9rem;
-            line-height: 1.35;
+            margin-bottom: .68rem;
+            color: #211d17;
+            font-size: 1.02rem;
+            line-height: 1.28;
+            font-weight: 600;
         }
         .legend-swatch {
-            width: 14px;
-            height: 14px;
+            width: 15px;
+            height: 15px;
             border-radius: 4px;
             margin-top: .17rem;
         }
         .legend-divider {
             height: 1px;
             background: #e2d8c7;
-            margin: 1.4rem 0 1.3rem;
+            margin: .8rem 0 .65rem;
         }
         .legend-note {
-            color: #6b6256;
-            font-size: .9rem;
-            line-height: 1.5;
-            margin-bottom: 1.2rem;
+            color: #4f463b;
+            font-size: 1rem;
+            line-height: 1.34;
+            margin-bottom: .6rem;
+            font-weight: 500;
         }
         .legend-hint {
-            color: #8d8171;
-            font-size: .86rem;
+            color: #756a5b;
+            font-size: .94rem;
             font-style: italic;
-            line-height: 1.45;
+            line-height: 1.3;
+            font-weight: 500;
         }
         div[data-testid="stSelectbox"] label {
             font-family: "IBM Plex Mono", monospace;
-            font-size: .72rem;
+            font-size: .94rem;
             letter-spacing: .22em;
             text-transform: uppercase;
             color: var(--brown);
+            font-weight: 600;
+        }
+        div[data-testid="stSelectbox"] [data-baseweb="select"] {
+            min-height: 48px;
+            font-size: 1.12rem;
+            font-weight: 700;
+        }
+        div[data-testid="stSelectbox"] [data-baseweb="select"] * {
+            font-size: 1.12rem;
+            font-weight: 700;
         }
         div[data-testid="stRadio"] > label {display: none;}
         div[data-testid="stRadio"] div[role="radiogroup"] {
@@ -683,13 +1057,13 @@ def inject_css() -> None:
             border-radius: 6px;
         }
         div[data-testid="stRadio"] div[role="radiogroup"] label {
-            min-height: 36px;
-            padding: 0 .92rem;
+            min-height: 40px;
+            padding: 0 .95rem;
             margin: 0;
             border-radius: 5px;
             color: #665e52;
-            font-weight: 700;
-            font-size: .84rem;
+            font-weight: 800;
+            font-size: 1.08rem;
         }
         div[data-testid="stRadio"] div[role="radiogroup"] label:has(input:checked) {
             background: #26221b;
@@ -768,6 +1142,49 @@ def topic_bars_html(topics: pd.DataFrame) -> str:
         f'<div>{right_html}</div>'
         '</div>'
         f'<div class="topic-legend">{legend_html}</div>'
+    )
+
+
+def topic_panel_html(topics: pd.DataFrame, total_label: str) -> str:
+    ordered = topics.sort_values("n", ascending=False).reset_index(drop=True)
+    max_n = max(float(ordered["n"].max()), 1)
+
+    rows = []
+    for _, row in ordered.iterrows():
+        color = TOPIC_RUMPUN_COLORS.get(str(row["rumpun"]), "#7E4FC0")
+        width = max(float(row["n"]) / max_n * 100, 1)
+        pct = f'{float(row["pct"]):.1f}'.replace(".", ",")
+        rows.append(
+            '<div class="topic-row">'
+            '<div class="topic-row-head">'
+            f'<div class="topic-row-title">{html.escape(str(row["label_short"]))}</div>'
+            f'<div class="topic-row-meta">{pct}%</div>'
+            '</div>'
+            '<div class="topic-track">'
+            f'<div class="topic-fill" style="width:{width:.2f}%; background:{color}"></div>'
+            '</div>'
+            '</div>'
+        )
+
+    legend_html = "".join(
+        '<span class="topic-legend-item">'
+        f'<span class="topic-legend-swatch" style="background:{color}"></span>'
+        f'{html.escape(label)}'
+        '</span>'
+        for label, color in TOPIC_RUMPUN_COLORS.items()
+    )
+    return (
+        '<div class="topic-panel">'
+        '<div class="topic-panel-head">'
+        '<h3>16 Topik Final</h3>'
+        '<span class="method">BERTopic</span>'
+        '</div>'
+        f'<p class="topic-copy">Distribusi <b>{html.escape(total_label)}</b> ulasan; warna = rumpun tema.</p>'
+        '<div class="topic-bars-grid">'
+        f'{"".join(rows)}'
+        '</div>'
+        f'<div class="topic-legend">{legend_html}</div>'
+        '</div>'
     )
 
 
@@ -1026,78 +1443,78 @@ def build_network_panel(
 @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=Spectral:wght@500;600;700&display=swap');
 * { box-sizing: border-box; }
 body { margin: 0; background: #eee9de; color: #211d17; font-family: "IBM Plex Sans", sans-serif; }
-.network-panel { display: grid; grid-template-columns: minmax(0, 2.35fr) 1fr; gap: 1.35rem; align-items: start; }
+.network-panel { display: grid; grid-template-columns: minmax(0, 2.45fr) .92fr; gap: .8rem; align-items: start; }
 .network-card, .network-side-card, .profile-card {
   background: #fbfaf6; border: 1px solid #ded5c6; border-radius: 6px; overflow: hidden;
 }
-.network-card { padding: 0.65rem 0.65rem 0; }
-.network-card svg { width: 100%; height: 620px; display: block; }
+.network-card { padding: .45rem .45rem 0; }
+.network-card svg { width: 100%; height: 500px; display: block; }
 .network-note {
-  border-top: 1px solid #eadfcc; padding: .75rem .5rem .8rem;
-  color: #9a8b77; font-family: "IBM Plex Mono", monospace; font-size: .72rem;
+  border-top: 1px solid #eadfcc; padding: .45rem .35rem .5rem;
+  color: #8e7f6b; font-family: "IBM Plex Mono", monospace; font-size: .84rem; font-weight: 500;
 }
 .network-node { cursor: pointer; transition: opacity .15s ease, stroke-width .15s ease, filter .15s ease; }
 .network-node:hover { opacity: 1; filter: drop-shadow(0 3px 5px rgba(38,34,27,.22)); }
 .network-node.active { stroke-width: 5.5px; }
-.network-side-card { padding: 1.45rem; min-height: 248px; }
+.network-side-card { padding: .85rem; min-height: 190px; }
 .legend-title {
-  font-family: "IBM Plex Mono", monospace; font-size: .72rem; letter-spacing: .22em;
-  text-transform: uppercase; color: #a05d17; margin-bottom: 1.05rem;
+  font-family: "IBM Plex Mono", monospace; font-size: .9rem; letter-spacing: .2em;
+  text-transform: uppercase; color: #a05d17; margin-bottom: .7rem; font-weight: 600;
 }
-.legend-item { display: flex; gap: .75rem; align-items: flex-start; margin: .78rem 0; color: #332d25; font-size: .9rem; line-height: 1.35; }
-.legend-swatch { width: 13px; height: 13px; flex: 0 0 13px; border-radius: 3px; margin-top: .14rem; }
-.legend-divider { border-top: 1px solid #eadfcc; margin: 1.3rem 0 1rem; }
-.legend-note { color: #6d6254; font-size: .9rem; line-height: 1.55; }
-.legend-hint { color: #8c7d69; font-size: .86rem; font-style: italic; line-height: 1.45; margin-top: 1rem; }
+.legend-item { display: flex; gap: .58rem; align-items: flex-start; margin: .65rem 0; color: #211d17; font-size: 1.02rem; font-weight: 600; line-height: 1.3; }
+.legend-swatch { width: 15px; height: 15px; flex: 0 0 15px; border-radius: 4px; margin-top: .18rem; }
+.legend-divider { border-top: 1px solid #eadfcc; margin: .7rem 0 .55rem; }
+.legend-note { color: #4f463b; font-size: .98rem; font-weight: 500; line-height: 1.36; }
+.legend-hint { color: #746857; font-size: .9rem; font-style: italic; font-weight: 500; line-height: 1.3; margin-top: .55rem; }
 .profile-card { padding: 0; }
 .profile-head {
   position: relative; background: var(--profile-color, #c9772f); color: #fffaf0;
-  padding: 1.15rem 1.35rem 1.25rem;
+  padding: .95rem 1.05rem 1rem;
 }
 .profile-close {
-  position: absolute; right: .85rem; top: .8rem; width: 28px; height: 28px; border: 0;
+  position: absolute; right: .7rem; top: .7rem; width: 26px; height: 26px; border: 0;
   border-radius: 999px; background: rgba(255,255,255,.22); color: #fffaf0;
-  font-size: 1.25rem; cursor: pointer; line-height: 1;
+  font-size: 1.1rem; cursor: pointer; line-height: 1;
 }
 .profile-head h3 {
-  font-family: "Spectral", Georgia, serif; font-size: 1.28rem; line-height: 1.18;
-  margin: 0 2rem .7rem 0; color: #fffaf0;
+  font-family: "IBM Plex Sans", sans-serif; font-size: 1.16rem; line-height: 1.15;
+  margin: 0 1.85rem .5rem 0; color: #fffaf0; font-weight: 800;
 }
 .profile-community {
-  font-family: "IBM Plex Mono", monospace; font-size: .74rem; letter-spacing: .08em;
+  font-family: "IBM Plex Mono", monospace; font-size: .72rem; letter-spacing: .08em;
   font-weight: 700; line-height: 1.35;
 }
-.profile-body { padding: 1.2rem 1.35rem 1.35rem; }
+.profile-body { padding: .95rem 1.05rem 1rem; }
 .role-pill {
-  display: inline-block; padding: .34rem .8rem; border-radius: 999px;
+  display: inline-block; padding: .3rem .68rem; border-radius: 999px;
   background: #eee3cf; color: #8b5a1a; font-family: "IBM Plex Mono", monospace;
-  font-size: .72rem; font-weight: 700; margin-bottom: .9rem;
+  font-size: .7rem; font-weight: 800; margin-bottom: .65rem;
 }
-.profile-summary { color: #6d6254; font-size: .9rem; line-height: 1.55; margin: 0 0 1.25rem; }
+.profile-summary { color: #4f463b; font-size: .82rem; line-height: 1.38; margin: 0 0 .85rem; font-weight: 500; }
 .profile-section-title {
-  font-family: "IBM Plex Mono", monospace; font-size: .68rem; letter-spacing: .2em;
-  text-transform: uppercase; color: #a05d17; margin: 1.1rem 0 .4rem;
+  font-family: "IBM Plex Mono", monospace; font-size: .68rem; letter-spacing: .18em;
+  text-transform: uppercase; color: #a05d17; margin: .85rem 0 .34rem; font-weight: 600;
 }
-.profile-main { font-weight: 800; color: #2e2922; margin-bottom: .18rem; }
-.profile-sub { color: #766b5d; font-size: .86rem; line-height: 1.4; }
-.sentiment-bar { display: flex; height: 11px; border-radius: 999px; overflow: hidden; background: #eadfcc; margin: .65rem 0 .45rem; }
+.profile-main { font-weight: 800; color: #211d17; margin-bottom: .1rem; font-size: .9rem; }
+.profile-sub { color: #5f5548; font-size: .78rem; line-height: 1.3; font-weight: 500; }
+.sentiment-bar { display: flex; height: 10px; border-radius: 999px; overflow: hidden; background: #eadfcc; margin: .5rem 0 .36rem; }
 .sent-pos { background: #2BA84A; }
 .sent-neu { background: #FFC20A; }
 .sent-neg { background: #E0313E; }
 .sentiment-labels {
   display: flex; justify-content: space-between; gap: .4rem; color: #6d6254;
-  font-family: "IBM Plex Mono", monospace; font-size: .68rem; line-height: 1.35;
+  font-family: "IBM Plex Mono", monospace; font-size: .66rem; line-height: 1.25; font-weight: 600;
 }
-.metric-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: .65rem; margin-top: .7rem; }
-.mini-metric { background: #eee3cf; border-radius: 5px; padding: .75rem; }
-.mini-metric strong { display: block; font-family: "Spectral", Georgia, serif; font-size: 1.35rem; line-height: 1; }
-.mini-metric span { display: block; margin-top: .35rem; color: #756b5c; font-size: .76rem; }
+.metric-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: .7rem; margin-top: .85rem; }
+.mini-metric { background: #eee3cf; border-radius: 5px; padding: .65rem; }
+.mini-metric strong { display: block; font-family: "IBM Plex Sans", sans-serif; font-size: 1.12rem; line-height: 1; font-weight: 800; color: #211d17; }
+.mini-metric span { display: block; margin-top: .3rem; color: #5f5548; font-size: .68rem; font-weight: 500; }
 .profile-foot {
-  border-top: 1px solid #eadfcc; margin-top: 1rem; padding-top: .8rem;
+  border-top: 1px solid #eadfcc; margin-top: .8rem; padding-top: .65rem;
   display: flex; justify-content: space-between; color: #8b806f;
-  font-family: "IBM Plex Mono", monospace; font-size: .72rem;
+  font-family: "IBM Plex Mono", monospace; font-size: .68rem; font-weight: 600;
 }
-@media (max-width: 1050px) { .network-panel { grid-template-columns: 1fr; } .network-card svg { height: 520px; } }
+@media (max-width: 1050px) { .network-panel { grid-template-columns: 1fr; } .network-card svg { height: 440px; } }
 </style>
 <div class="network-panel">
   <div class="network-card">
@@ -1442,7 +1859,7 @@ def network_figure(
         )
     )
     fig.update_layout(
-        height=650,
+        height=520,
         margin={"l": 10, "r": 10, "t": 25, "b": 10},
         paper_bgcolor="rgba(0,0,0,0)",
         plot_bgcolor="rgba(0,0,0,0)",
@@ -1589,7 +2006,7 @@ def quadrant_figure(objects: pd.DataFrame, color_map: dict[str, str]) -> go.Figu
         font={"family": "IBM Plex Sans", "size": 12, "color": "#3b342b"},
     )
     fig.update_layout(
-        height=720,
+        height=560,
         title={
             "text": (
                 "Posisi Objek dalam Ekosistem: Sentralitas × Sentimen<br>"
@@ -1597,9 +2014,9 @@ def quadrant_figure(objects: pd.DataFrame, color_map: dict[str, str]) -> go.Figu
             ),
             "x": 0.5,
             "xanchor": "center",
-            "font": {"size": 20, "color": "#11100e"},
+            "font": {"size": 15, "color": "#11100e"},
         },
-        margin={"l": 70, "r": 28, "t": 90, "b": 82},
+        margin={"l": 54, "r": 22, "t": 62, "b": 58},
         paper_bgcolor="rgba(0,0,0,0)",
         plot_bgcolor="#fbfaf6",
         legend={
@@ -1651,7 +2068,7 @@ def quadrant_matplotlib_figure(objects: pd.DataFrame, communities: pd.DataFrame)
         for row in communities.sort_values("id").itertuples()
     }
 
-    fig, ax = plt.subplots(figsize=(13, 9))
+    fig, ax = plt.subplots(figsize=(12.2, 6.8))
     fig.patch.set_facecolor("#fbfaf6")
     ax.set_facecolor("#fbfaf6")
 
@@ -1662,7 +2079,7 @@ def quadrant_matplotlib_figure(objects: pd.DataFrame, communities: pd.DataFrame)
         community = int(r["komunitas"])
         is_bridge = r["nama"] in bridge_names
         color = NOTEBOOK_COMMUNITY_COLORS.get(community, "#999999")
-        size = 120 + (float(r["bc"]) / bc_max) * 1700
+        size = 90 + (float(r["bc"]) / bc_max) * 1250
         ax.scatter(
             float(r["wd"]),
             float(r["balance"]),
@@ -1670,7 +2087,7 @@ def quadrant_matplotlib_figure(objects: pd.DataFrame, communities: pd.DataFrame)
             color=color,
             alpha=0.78,
             edgecolors="#1A1A1A",
-            linewidths=1.0,
+            linewidths=0.9,
             marker="*" if is_bridge else "o",
             zorder=5 if is_bridge else 4,
         )
@@ -1684,12 +2101,12 @@ def quadrant_matplotlib_figure(objects: pd.DataFrame, communities: pd.DataFrame)
             (float(r["wd"]), float(r["balance"])),
             xytext=(6, 4),
             textcoords="offset points",
-            fontsize=7,
+            fontsize=7.1,
             color="#222",
         )
 
-    ax.axvline(x_med, color="#666", linestyle="--", linewidth=1.1)
-    ax.axhline(y_med, color="#666", linestyle="--", linewidth=1.1)
+    ax.axvline(x_med, color="#666", linestyle="--", linewidth=1.0)
+    ax.axhline(y_med, color="#666", linestyle="--", linewidth=1.0)
 
     xr, yr = ax.get_xlim(), ax.get_ylim()
     quad = [
@@ -1703,7 +2120,7 @@ def quadrant_matplotlib_figure(objects: pd.DataFrame, communities: pd.DataFrame)
             xr[0] + (xr[1] - xr[0]) * fx,
             yr[0] + (yr[1] - yr[0]) * fy,
             text,
-            fontsize=9.5,
+            fontsize=9.0,
             fontweight="bold",
             color=color,
             ha=ha,
@@ -1711,15 +2128,10 @@ def quadrant_matplotlib_figure(objects: pd.DataFrame, communities: pd.DataFrame)
             alpha=0.85,
         )
 
-    ax.set_xlabel("Weighted Degree (sentralitas ko-kunjungan) →", fontsize=11)
-    ax.set_ylabel("Sentiment Balance  (% positif − % negatif) →", fontsize=11)
-    ax.set_title(
-        "Posisi Objek dalam Ekosistem: Sentralitas × Sentimen\n"
-        "ukuran bubble = betweenness · ★ = bridge node · garis = median",
-        fontsize=12.5,
-        fontweight="bold",
-        pad=12,
-    )
+    ax.set_xlabel("Weighted Degree (sentralitas ko-kunjungan) →", fontsize=10.0)
+    ax.set_ylabel("Sentiment Balance  (% positif − % negatif) →", fontsize=10.0)
+    ax.set_title("")
+    ax.tick_params(axis="both", labelsize=8.4)
     ax.grid(True, alpha=0.2)
 
     legend_comm = [
@@ -1735,13 +2147,13 @@ def quadrant_matplotlib_figure(objects: pd.DataFrame, communities: pd.DataFrame)
             [],
             [],
             marker="*",
-            s=180,
+            s=145,
             color="gray",
             edgecolors="#1A1A1A",
             label="Bridge node (BC tinggi)",
         )
     )
-    ax.legend(handles=legend_comm, fontsize=8.5, loc="lower left", framealpha=0.92)
+    ax.legend(handles=legend_comm, fontsize=7.7, loc="lower left", framealpha=0.92)
 
     fig.tight_layout()
     return fig
@@ -1767,16 +2179,21 @@ def matplotlib_svg_html(fig) -> str:
       }}
       .svg-plot {{
         width: 100%;
+        height: 100%;
         background: #fbfaf6;
         border: 1px solid #d8d0c2;
-        border-radius: 12px;
-        padding: 0.55rem;
+        border-radius: 8px;
+        padding: 1.1rem 0.35rem 1.05rem;
         box-sizing: border-box;
         overflow: hidden;
+        display: flex;
+        align-items: center;
+        justify-content: center;
       }}
       .svg-plot svg {{
         width: 100% !important;
         height: auto !important;
+        max-height: 100%;
         display: block;
       }}
     </style>
@@ -1804,7 +2221,7 @@ def topic_figure(topics: pd.DataFrame) -> go.Figure:
         "Kata kunci: %{customdata[1]}<extra></extra>",
     )
     fig.update_layout(
-        height=720,
+        height=560,
         margin={"l": 10, "r": 50, "t": 25, "b": 20},
         paper_bgcolor="rgba(0,0,0,0)",
         plot_bgcolor="rgba(255,255,255,.35)",
@@ -1833,7 +2250,7 @@ def sentiment_composition_figure(objects: pd.DataFrame) -> go.Figure:
         )
     fig.update_layout(
         barmode="stack",
-        height=820,
+        height=560,
         xaxis={"range": [0, 100], "title": "Proporsi sentimen (%)"},
         yaxis={"autorange": "reversed"},
         margin={"l": 10, "r": 10, "t": 25, "b": 20},
@@ -1863,13 +2280,25 @@ st.markdown(
     f"""
     <section class="hero">
       <div class="hero-kicker">Dashboard Narasi Integratif · Tugas Akhir 2026</div>
-      <h1>Ekosistem Pengalaman Publik Cagar Budaya Surabaya</h1>
-      <p>
-        Dashboard naratif yang membaca <b>{meta["jumlahObjek"]} objek cagar budaya</b>
-        bukan sebagai situs yang berdiri sendiri, melainkan sebagai simpul yang
-        saling terhubung — lewat apa yang dibicarakan pengunjung, bagaimana mereka
-        menilainya, dan bagaimana objek terjalin dalam jaringan ko-reviewer.
-      </p>
+      <div class="hero-title-frame">
+        <span class="hero-motif hero-motif-left" aria-hidden="true">
+          <svg viewBox="0 0 104 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M0 12H50" stroke="#B56E24" stroke-width="2"/>
+            <circle cx="58" cy="12" r="2.6" fill="currentColor"/>
+            <path d="M71 4L79 12L71 20L63 12L71 4Z" stroke="currentColor" stroke-width="2.1"/>
+            <path d="M87 12H104" stroke="#B56E24" stroke-width="2"/>
+          </svg>
+        </span>
+        <h1><span class="title-line">Ekosistem Pengalaman Publik Cagar Budaya</span> <span class="title-place">Surabaya</span></h1>
+        <span class="hero-motif hero-motif-right" aria-hidden="true">
+          <svg viewBox="0 0 104 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M0 12H50" stroke="#B56E24" stroke-width="2"/>
+            <circle cx="58" cy="12" r="2.6" fill="currentColor"/>
+            <path d="M71 4L79 12L71 20L63 12L71 4Z" stroke="currentColor" stroke-width="2.1"/>
+            <path d="M87 12H104" stroke="#B56E24" stroke-width="2"/>
+          </svg>
+        </span>
+      </div>
     </section>
     """,
     unsafe_allow_html=True,
@@ -1927,85 +2356,136 @@ tab_overview, tab_objects, tab_topics, tab_priorities = st.tabs(
 )
 
 with tab_overview:
-    dimension_cols = st.columns(3)
     dimensions = [
-        ("Diskursif", "Topic Modeling", "Apa yang dibicarakan pengunjung — 16 topik dari BERTopic.", "#2C66C9"),
-        ("Afektif", "Sentiment", "Bagaimana dinilai — positif, netral, negatif (XLM-T + XGBoost).", "#1E865A"),
-        ("Struktural", "SNA", "Bagaimana terhubung — jaringan ko-reviewer & komunitas Louvain.", "#7E4FC0"),
+        (
+            "Diskursif",
+            "Topic Modeling",
+            "Apa yang dibicarakan — 16 topik BERTopic.",
+            "#A76B2A",
+            "#F5ECDE",
+            '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M21 11.5a8.4 8.4 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.4 8.4 0 0 1-3.8-.9L3 21l1.9-5.7A8.4 8.4 0 0 1 4 11.5a8.5 8.5 0 1 1 17 0Z"/></svg>',
+        ),
+        (
+            "Afektif",
+            "Sentiment",
+            "Bagaimana dinilai — positif · netral · negatif.",
+            "#5D7442",
+            "#EEF4E5",
+            '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M19.5 12.6 12 20l-7.5-7.4a4.7 4.7 0 0 1 0-6.7 4.8 4.8 0 0 1 6.8 0l.7.7.7-.7a4.8 4.8 0 0 1 6.8 0 4.7 4.7 0 0 1 0 6.7Z"/></svg>',
+        ),
+        (
+            "Struktural",
+            "SNA",
+            "Bagaimana terhubung — komunitas Louvain.",
+            "#76506D",
+            "#F2E8EE",
+            '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" xmlns="http://www.w3.org/2000/svg"><circle cx="6" cy="7" r="2.4"/><circle cx="18" cy="7" r="2.4"/><circle cx="12" cy="17" r="2.4"/><path d="M8.2 8.2 10.3 15M15.8 8.2 13.7 15M8.3 7h7.4"/></svg>',
+        ),
     ]
-    for column, (title, method, description, color) in zip(dimension_cols, dimensions):
-        column.markdown(
-            f"""
-            <div class="dimension-card" style="--accent:{color}">
-              <span class="method">{method}</span>
-              <h3>{title}</h3>
-              <p>{description}</p>
-            </div>
-            """,
-            unsafe_allow_html=True,
-        )
-
-    st.markdown('<div style="height:1.15rem"></div>', unsafe_allow_html=True)
-    metric_cards(meta)
-    st.markdown('<div style="height:2rem"></div>', unsafe_allow_html=True)
-
     findings = [
         "Objek strategis seperti De Javasche Bank & Masjid Sunan Ampel menghubungkan banyak komunitas, tetapi pengalamannya belum maksimal.",
         "Keluhan parkir, jam operasional, & fasilitas muncul lintas komunitas — isu praktis, bukan penolakan nilai sejarah.",
         "Cagar budaya Surabaya membentuk satu ekosistem pengalaman, bukan kumpulan situs yang terpisah.",
     ]
-
-    insight_left, insight_right = st.columns([1.05, 1])
-    with insight_left:
-        st.markdown(
-            """
-            <div class="dark-card">
-              <div class="eyebrow">Temuan Inti</div>
-              <h2>Sentralitas jaringan tidak selalu sejalan dengan kepuasan pengunjung.</h2>
-              <p>
-                Objek yang paling strategis dalam jaringan — seperti De Javasche Bank
-                atau Masjid Sunan Ampel — belum tentu objek yang paling disukai.
-                Sebaliknya, objek dengan sentimen sangat positif sering justru
-                periferal. Pengelolaan cagar budaya karenanya perlu membaca posisi
-                struktural, bukan sekadar tingkat kepuasan.
-              </p>
-            </div>
-            """,
-            unsafe_allow_html=True,
-        )
-    with insight_right:
-        finding_html = '<div class="finding-list-title">Apa yang ditemukan integrasi</div>'
-        for number, finding in enumerate(findings, 1):
-            finding_html += (
-                f'<div class="finding-item"><span class="finding-number">{number}</span>'
-                f'<span>{finding}</span></div>'
-            )
-        st.markdown(finding_html, unsafe_allow_html=True)
+    metrics = [
+        (f"{meta['dataReviews']:,}".replace(",", "."), "data review Google Maps", "#B85C2D", "#F4E5D9"),
+        (f"{meta['ulasanTeksValid']:,}".replace(",", "."), "ulasan teks valid", "#5D7442", "#EBF2E2"),
+        (meta["jumlahObjek"], "objek cagar budaya", "#76506D", "#EFE5ED"),
+        (meta["jumlahTopikFinal"], "topik final", "#A76B2A", "#F4EAD6"),
+        (meta["jumlahKomunitas"], "komunitas ko-reviewer", "#2E7371", "#E3F0ED"),
+    ]
+    dimension_html = "".join(
+        f'<div class="dimension-card" style="--accent:{color};--soft:{soft}">'
+        f'<span class="dimension-icon">{icon}</span>'
+        '<div class="dimension-copy">'
+        f'<h3>{html.escape(title)} <span class="method">{html.escape(method)}</span></h3>'
+        f'<p>{html.escape(description)}</p>'
+        '</div>'
+        '</div>'
+        for title, method, description, color, soft, icon in dimensions
+    )
+    metric_html = "".join(
+        f'<div class="metric-card" style="--accent:{color};--soft:{soft}"><div class="value">{html.escape(str(value))}</div>'
+        f'<div class="label">{html.escape(label)}</div></div>'
+        for value, label, color, soft in metrics
+    )
+    topic_composition = (
+        topics.groupby("rumpun", as_index=False)["n"]
+        .sum()
+        .assign(pct=lambda df: df["n"] / max(float(df["n"].sum()), 1.0) * 100)
+    )
+    topic_composition["order"] = topic_composition["rumpun"].map(
+        {name: idx for idx, name in enumerate(TOPIC_RUMPUN_COLORS)}
+    )
+    topic_composition = topic_composition.sort_values(["order", "n"], ascending=[True, False])
+    discourse_segments = "".join(
+        '<span class="discourse-segment" '
+        f'style="width:{float(row["pct"]):.2f}%; background:{TOPIC_RUMPUN_COLORS.get(str(row["rumpun"]), "#7E4FC0")}">'
+        f'{float(row["pct"]):.0f}%</span>'
+        for _, row in topic_composition.iterrows()
+    )
+    discourse_legend = "".join(
+        '<span class="discourse-legend-item">'
+        f'<span class="discourse-swatch" style="background:{TOPIC_RUMPUN_COLORS.get(str(row["rumpun"]), "#7E4FC0")}"></span>'
+        f'{html.escape(str(row["rumpun"]))}'
+        '</span>'
+        for _, row in topic_composition.iterrows()
+    )
+    finding_items = "".join(
+        f'<div class="finding-item" style="--accent:{color}"><span class="finding-number">{number}</span>'
+        f'<span>{html.escape(finding)}</span></div>'
+        for (number, finding), color in zip(enumerate(findings, 1), ["#76506D", "#B85C2D", "#5D7442"])
+    )
+    overview_html = (
+        '<section class="overview-layout">'
+        f'<div class="overview-dimensions">{dimension_html}</div>'
+        f'<div class="overview-metrics">{metric_html}</div>'
+        '<div class="overview-main">'
+        '<div class="overview-left-stack">'
+        '<div class="dark-card">'
+        '<div class="discourse-card">'
+        '<div class="discourse-head"><h3>Komposisi Diskursus menurut Rumpun Tema</h3>'
+        f'<span class="discourse-total">{html.escape(str(meta["ulasanTeksValid"]))} ulasan</span></div>'
+        f'<div class="discourse-bar">{discourse_segments}</div>'
+        f'<div class="discourse-legend">{discourse_legend}</div>'
+        '</div>'
+        '<div class="eyebrow">◆ Temuan Inti</div>'
+        '<h2>Sentralitas jaringan tidak selalu sejalan dengan kepuasan pengunjung.</h2>'
+        '<p>Objek paling strategis — <strong>De Javasche Bank</strong> atau <strong>Masjid Sunan Ampel</strong> — belum tentu paling disukai; objek bersentimen sangat positif justru sering periferal. Kelola berdasarkan posisi struktural, bukan sekadar kepuasan.</p></div>'
+        '</div>'
+        '<div class="findings-card">'
+        '<div class="finding-list-title">Apa yang ditemukan integrasi</div>'
+        f'{finding_items}'
+        '</div>'
+        '</div>'
+        '</section>'
+    )
+    st.markdown(overview_html, unsafe_allow_html=True)
 
 with tab_objects:
-    control_left, control_right = st.columns([1.15, 1])
+    control_left, control_right = st.columns([2.45, .92])
     with control_left:
-        color_mode = st.radio(
-            "Dimensi warna",
-            ["Struktural · SNA", "Diskursif · Topik", "Spasial · Kawasan"],
-            horizontal=True,
-            label_visibility="collapsed",
-            key="network_color_mode",
-        )
-    with control_right:
-        filter_left, filter_right = st.columns([1.05, 1])
-        with filter_left:
+        mode_col, community_col = st.columns([1.65, 1])
+        with mode_col:
+            color_mode = st.radio(
+                "Dimensi warna",
+                ["Struktural · SNA", "Diskursif · Topik", "Spasial · Kawasan"],
+                horizontal=True,
+                label_visibility="collapsed",
+                key="network_color_mode",
+            )
+        with community_col:
             st.markdown(
                 '<div class="network-kicker">Filter Komunitas</div>',
                 unsafe_allow_html=True,
             )
             selected_communities = community_filter_control(communities)
-        with filter_right:
-            role_filter = st.selectbox(
-                "Filter Peran",
-                ["Semua peran"] + sorted(objects["peran"].unique()),
-                key="network_role_filter",
-            )
+    with control_right:
+        role_filter = st.selectbox(
+            "Filter Peran",
+            ["Semua peran"] + sorted(objects["peran"].unique()),
+            key="network_role_filter",
+        )
 
     network_objects = objects[objects["komunitas"].isin(selected_communities)].copy()
     if role_filter != "Semua peran":
@@ -2020,6 +2500,7 @@ with tab_objects:
         ].copy()
 
         community_colors = communities.set_index("id")["color"].to_dict()
+        st.markdown('<div class="network-panel-lift"></div>', unsafe_allow_html=True)
         components.html(
             build_network_panel(
                 network_objects,
@@ -2028,57 +2509,75 @@ with tab_objects:
                 community_colors,
                 communities,
             ),
-            height=735,
+            height=570,
             scrolling=False,
         )
 
 with tab_topics:
     classified_reviews = f'{int(topics["n"].sum()):,}'.replace(",", ".")
-    st.markdown(
-        f"""
-        <div class="topic-kicker">16 Topik Final · BERTopic</div>
-        <p class="topic-copy">
-          Distribusi <b>{classified_reviews}</b> ulasan terklasifikasi.
-          Warna menandai rumpun tema. Topik fasilitas & operasional menjadi
-          sumber isu praktis utama, sementara topik religi, museum, dan kuliner
-          menunjukkan identitas pengalaman yang lebih kuat.
-        </p>
-        """,
-        unsafe_allow_html=True,
+    quadrant_col, topic_col = st.columns([1.65, .95])
+    community_inline_legend = "".join(
+        '<span class="community-inline-item">'
+        f'<span class="topic-legend-swatch" style="background:{NOTEBOOK_COMMUNITY_COLORS.get(int(row.id), "#999")}"></span>'
+        f'K-{int(row.id)} · {html.escape(str(row.nama))}'
+        '</span>'
+        for row in communities.sort_values("id").itertuples()
+        if int(row.id) in NOTEBOOK_COMMUNITY_COLORS
     )
-    st.markdown(topic_bars_html(topics), unsafe_allow_html=True)
 
-    if MATPLOTLIB_AVAILABLE:
-        components.html(
-            matplotlib_svg_html(quadrant_matplotlib_figure(filtered, communities)),
-            height=835,
-            scrolling=False,
+    with quadrant_col:
+        st.markdown(
+            f"""
+            <div class="quadrant-head">
+              <h3>Posisi Objek: Sentralitas × Sentimen</h3>
+              <p>Sumbu-X = sentralitas jaringan · sumbu-Y = keseimbangan sentimen (positif − negatif). Garis putus = median.</p>
+              <div class="quadrant-mini-legend">★ bridge <span><span class="legend-dot"></span>= betweenness</span></div>
+            </div>
+            """,
+            unsafe_allow_html=True,
         )
-    else:
-        st.warning(
-            "Matplotlib belum terinstall. Jalankan `pip install -r dashboard/requirements.txt` "
-            "agar visualisasi ini tampil sama seperti notebook."
+        if MATPLOTLIB_AVAILABLE:
+            components.html(
+                matplotlib_svg_html(quadrant_matplotlib_figure(filtered, communities)),
+                height=500,
+                scrolling=False,
+            )
+        else:
+            st.warning(
+                "Matplotlib belum terinstall. Jalankan `pip install -r dashboard/requirements.txt` "
+                "agar visualisasi ini tampil sama seperti notebook."
+            )
+            community_color_map = communities.set_index("nama")["color"].to_dict()
+            st.plotly_chart(
+                quadrant_figure(filtered, community_color_map),
+                width="stretch",
+                config={"displayModeBar": False},
+            )
+        st.markdown(
+            f'<div class="community-inline-legend">{community_inline_legend}</div>',
+            unsafe_allow_html=True,
         )
-        community_color_map = communities.set_index("nama")["color"].to_dict()
-        st.plotly_chart(
-            quadrant_figure(filtered, community_color_map),
-            width="stretch",
-            config={"displayModeBar": False},
+        st.markdown(
+            f"""
+            <div class="plot-note">
+              median WD {filtered["wd"].median():.0f} · median balance {filtered["balance"].median():.1f}
+            </div>
+            """,
+            unsafe_allow_html=True,
         )
-    st.markdown(
-        f"""
-        <div class="plot-note">
-          median WD {filtered["wd"].median():.0f} · median balance {filtered["balance"].median():.1f}
-        </div>
-        """,
-        unsafe_allow_html=True,
-    )
+
+    with topic_col:
+        st.markdown(topic_panel_html(topics, classified_reviews), unsafe_allow_html=True)
 
 with tab_priorities:
-    left_col, right_col = st.columns([1.5, 1])
+    left_col, right_col = st.columns([1.42, 1])
 
     with left_col:
-        st.markdown('<div class="priority-kicker">Lima Kelompok Prioritas</div>', unsafe_allow_html=True)
+        st.markdown(
+            '<div class="priority-kicker">Lima Kelompok Prioritas</div>'
+            '<p class="section-explain">Prioritas dibaca dari gabungan sentimen, topik dominan, dan posisi jaringan.</p>',
+            unsafe_allow_html=True,
+        )
         accent_colors = ["#1F8A5B", "#8754C9", "#C2410C", "#2A6FDB", "#9A8B6E"]
         for priority, accent in zip(data["prioritas"], accent_colors):
             chips = "".join(
@@ -2105,21 +2604,21 @@ with tab_priorities:
                 <div class="strategy-number">1</div>
                 <div>
                   <div class="strategy-title">Pertahankan objek positif</div>
-                  <div class="strategy-copy">Jadikan anchor promosi & ikon tematik dalam rute heritage.</div>
+                  <div class="strategy-copy">Jaga objek bersentimen kuat sebagai anchor narasi, promosi, dan rute heritage.</div>
                 </div>
               </div>
               <div class="strategy-item">
                 <div class="strategy-number">2</div>
                 <div>
                   <div class="strategy-title">Perkuat objek strategis</div>
-                  <div class="strategy-copy">Anchor & bridge — perbaikannya berdampak lintas komunitas.</div>
+                  <div class="strategy-copy">Bridge node berdampak lintas komunitas; prioritaskan akses, fasilitas, dan informasi.</div>
                 </div>
               </div>
               <div class="strategy-item">
                 <div class="strategy-number">3</div>
                 <div>
                   <div class="strategy-title">Perbaiki isu operasional</div>
-                  <div class="strategy-copy">Parkir, akses, fasilitas, jam kunjungan agar pengalaman naik.</div>
+                  <div class="strategy-copy">Tangani parkir, fasilitas, tarif, kebersihan, dan jam kunjungan yang muncul lintas objek.</div>
                 </div>
               </div>
             </div>
