@@ -1950,7 +1950,6 @@ with tab_overview:
     st.markdown('<div style="height:2rem"></div>', unsafe_allow_html=True)
 
     findings = [
-        "Sebagian objek sudah kuat — sentimen positif tinggi & identitas topik jelas (mis. Museum Pendidikan, Hotel Majapahit, Zangrandi).",
         "Objek strategis seperti De Javasche Bank & Masjid Sunan Ampel menghubungkan banyak komunitas, tetapi pengalamannya belum maksimal.",
         "Keluhan parkir, jam operasional, & fasilitas muncul lintas komunitas — isu praktis, bukan penolakan nilai sejarah.",
         "Cagar budaya Surabaya membentuk satu ekosistem pengalaman, bukan kumpulan situs yang terpisah.",
@@ -1986,10 +1985,6 @@ with tab_overview:
 with tab_objects:
     control_left, control_right = st.columns([1.15, 1])
     with control_left:
-        st.markdown(
-            '<div class="network-kicker">Warnai node berdasarkan dimensi</div>',
-            unsafe_allow_html=True,
-        )
         color_mode = st.radio(
             "Dimensi warna",
             ["Struktural · SNA", "Diskursif · Topik", "Spasial · Kawasan"],
